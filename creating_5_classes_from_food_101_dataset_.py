@@ -1,18 +1,17 @@
 
 import torch
 from torch import nn
+import pathlib
+import torchvision.datasets as datasets
+import torchvision.transforms as transforms
+import random
+import shutil
 
 device= "cuda" if torch.cuda.is_available() else "cpu"
 
-device
 
-torch.__version__
-
-import pathlib
 data_dir = pathlib.Path("../data")
 
-import torchvision.datasets as datasets
-import torchvision.transforms as transforms
 
 train_data=datasets.Food101(root=data_dir,
                             split="train",
@@ -21,16 +20,11 @@ test_data=datasets.Food101(root=data_dir,
                             split="test",
                             download=True)
 
-train_data
 
 class_names= train_data.classes
-class_names
 
-print(class_names[train_data[1][1]])
 
-train_data[1][0]
 
-import random
 data_path = data_dir/"food-101"/ "images"
 target_classes= ["cup_cakes","chicken_wings","pizza", "waffles", "ramen"]
 
@@ -59,7 +53,7 @@ def get_subset(image_path=data_path,
   return label_splits
         
 label_splits = get_subset(amount=amount_to_get)
-label_splits["train"][:10]
+
 
 """#Move training and testing images to dedicated folders"""
 
@@ -69,10 +63,6 @@ print(f"Creating Directory: '{target_dir_name}'")
 target_dir=pathlib.Path(target_dir_name) #setup the directories
 
 target_dir.mkdir(parents=True, exist_ok=True)
-
-import shutil
-
-import shutil
 
 for image_split in label_splits.keys():
     for image_path in label_splits[str(image_split)]:
@@ -86,7 +76,4 @@ zip_file_name = data_dir / f"5_Classes_of_Food101_{str(int(amount_to_get*100))}_
 food=shutil.make_archive(zip_file_name, 
                     format="zip", 
                     root_dir=target_dir)
-food
-
-!ls -la ../data/
 
